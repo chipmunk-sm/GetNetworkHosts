@@ -60,12 +60,13 @@ int wmain(int argc, wchar_t argv[])
 		
 		{
 			auto xLastTime = xStartTime;
-			while (collector.WaitForResult(std::chrono::milliseconds(20)) > 0 && !collector.IsAbort()) {
+			while (collector.WaitForResult(std::chrono::milliseconds(10)) > 0 && !collector.IsAbort()) {
 				const auto xCurrentTime = std::chrono::high_resolution_clock::now();
 				const auto dInterval = std::chrono::duration_cast<std::chrono::duration<double>>(xCurrentTime - xLastTime).count();// 
 				if (dInterval > 2.5) {
 					const auto dElapsed = std::chrono::duration_cast<std::chrono::duration<double>>(xCurrentTime - xStartTime).count();// 
-					fwprintf(stdout, L"Elapsed %9.6f sec. ", dElapsed);
+					fwprintf(stdout, L"\rElapsed %9.6f sec.          ", dElapsed);
+					fflush(stdout);
 					xLastTime = xCurrentTime;
 				}
 			}
