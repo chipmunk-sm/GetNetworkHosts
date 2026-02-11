@@ -42,11 +42,11 @@ public:
 
 	std::vector<HostItem> GetHostList();
 
-	const size_t GetPaddingLenIp(const std::wstring& val);
-	const size_t GetPaddingLenHost(const std::wstring& val);
-	const size_t GetPaddingLenFamily(const std::wstring& val);
-	const size_t GetPaddingLenAdapter(const std::wstring& val);
-	const size_t GetPaddingLenType(const std::wstring& val);
+	size_t GetPaddingLenIp(const std::wstring& val);
+	size_t GetPaddingLenHost(const std::wstring& val);
+	size_t GetPaddingLenFamily(const std::wstring& val);
+	size_t GetPaddingLenAdapter(const std::wstring& val);
+	size_t GetPaddingLenType(const std::wstring& val);
 
 	/// <summary>
 	/// Collect neighbor hosts

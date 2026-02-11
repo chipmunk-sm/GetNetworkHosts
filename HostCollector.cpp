@@ -173,23 +173,23 @@ std::vector<HostItem> HostCollector::GetHostList() {
 	return items;
 }
 
-const size_t HostCollector::GetPaddingLenIp(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenIp(const std::wstring& val) {
 	return GetPaddingLen(val.length(), m_ipLen);
 }
 
-const size_t HostCollector::GetPaddingLenHost(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenHost(const std::wstring& val) {
 	return  GetPaddingLen(val.length(), m_hostLen);
 }
 
-const size_t HostCollector::GetPaddingLenFamily(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenFamily(const std::wstring& val) {
 	return GetPaddingLen(val.length(), m_familyLen);
 }
 
-const size_t HostCollector::GetPaddingLenAdapter(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenAdapter(const std::wstring& val) {
 	return GetPaddingLen(val.length(), m_adapterLen);
 }
 
-const size_t HostCollector::GetPaddingLenType(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenType(const std::wstring& val) {
 	return GetPaddingLen(val.length(), m_typeLen);
 }
 
