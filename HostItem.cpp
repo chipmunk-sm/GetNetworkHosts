@@ -51,7 +51,7 @@ const std::wstring HostItem::GetCollectorTypes(const eCollectorType &collectorTy
 	return retv;
 }
 
-const std::wstring HostItem::GetCollectorTypes() noexcept
+const std::wstring HostItem::GetCollectorTypes() const noexcept
 {
 	return GetCollectorTypes(CollectorType);
 }

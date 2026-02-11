@@ -1,10 +1,5 @@
 #include "HostCollector.h"
 
-//#if defined(_DEBUG) || defined(DEBUG)
-//#define TRACEENABLE
-//#include <debugapi.h>
-//#endif // DEBUG
-
 HostCollector::HostCollector() {
 
 }
@@ -13,23 +8,13 @@ HostCollector::~HostCollector() {
 
 	SetAbort();
 
-	int32_t timeout = 1000;
+	int32_t timeout = 5000;
 
 	while (WaitForResult(std::chrono::milliseconds(20)) > 0 && timeout-- > 0);
 
-#ifdef TRACEENABLE
-	{
-		std::wstring out(L"Exit HostCollector. Active threads " + std::to_wstring(m_threadRun.load()) + L"\n");
-		OutputDebugStringW(out.c_str());
-	}
-#endif
-#if defined(_DEBUG) || defined(DEBUG)
-		_ASSERT(m_threadRun.load() == 0);
-#endif // DEBUG
-
 }
 
-std::wstring GetIpString(const SOCKADDR_INET& address)
+static std::wstring GetIpString(const SOCKADDR_INET& address)
 {
 	std::vector<wchar_t> buff(512, 0);
 
@@ -173,23 +158,23 @@ std::vector<HostItem> HostCollector::GetHostList() {
 	return items;
 }
 
-size_t HostCollector::GetPaddingLenIp(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenIp(const std::wstring& val) const {
 	return GetPaddingLen(val.length(), m_ipLen);
 }
 
-size_t HostCollector::GetPaddingLenHost(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenHost(const std::wstring& val) const {
 	return  GetPaddingLen(val.length(), m_hostLen);
 }
 
-size_t HostCollector::GetPaddingLenFamily(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenFamily(const std::wstring& val) const {
 	return GetPaddingLen(val.length(), m_familyLen);
 }
 
-size_t HostCollector::GetPaddingLenAdapter(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenAdapter(const std::wstring& val) const {
 	return GetPaddingLen(val.length(), m_adapterLen);
 }
 
-size_t HostCollector::GetPaddingLenType(const std::wstring& val) {
+size_t HostCollector::GetPaddingLenType(const std::wstring& val) const {
 	return GetPaddingLen(val.length(), m_typeLen);
 }
 
@@ -281,10 +266,6 @@ int64_t HostCollector::WaitForResult(const std::chrono::milliseconds & _Rel_time
 	std::unique_lock<std::mutex> locker(m_onResultMutex);
 	m_onResultEvent.wait_for(locker, _Rel_time);
 
-#ifdef TRACEENABLE
-	std::wstring out(L">>>> Threads  RUN[" + std::to_wstring(m_threadRun.load()) + L"]\n");
-	OutputDebugStringW(out.c_str());
-#endif
 	return m_threadRun.load();
 }
 
@@ -300,10 +281,6 @@ void HostCollector::SetAbort() {
 void HostCollector::SetHostNameReady(const std::wstring ip, const std::wstring host)
 {
 	std::lock_guard<std::mutex> lck(m_hostmapMtx);
-#ifdef TRACEENABLE
-	std::wstring out(L"=host name ready [" + ip + L"]->[" + host + L"]\n");
-	OutputDebugStringW(out.c_str());
-#endif
 	auto item = m_hostmap.find(ip);
 	if (item == m_hostmap.end())
 		return;

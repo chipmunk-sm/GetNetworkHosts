@@ -1,17 +1,4 @@
 #pragma once
-
-#ifndef HOSTCOLLECTOR__
-#define HOSTCOLLECTOR__
-
-#pragma warning( push )
-#pragma warning( disable : 4365 ) // conversion from '' to ''
-#pragma warning( disable : 4668 ) // is not defined as a preprocessor macro
-#pragma warning( disable : 4710 ) // function not inlined
-#pragma warning( disable : 4711 ) // selected for automatic inline expansion
-#pragma warning( disable : 4820 ) // bytes padding added after data member
-#pragma warning( disable : 5039 ) // pointer or reference to potentially throwing function passed to 'extern "C"' function under - EHc.Undefined behavior may occur if this function throws an exception.
-#pragma warning( disable : 5264 ) // 'const' variable is not used
-
 #include <iostream>
 #include <string>
 #include <map>
@@ -25,8 +12,6 @@
 #include <iphlpapi.h>
 #include <ws2tcpip.h>
 
-#pragma warning( pop )
-
 #include "HostItem.h"
 
 class HostCollector
@@ -35,19 +20,16 @@ public:
 	HostCollector();
 	~HostCollector();
 
-	//warning C4625 copy constructor was implicitly defined as deleted
 	HostCollector(HostCollector&) = delete;
-	//warning C4626 assignment operator was implicitly defined as deleted
 	HostCollector operator=(HostCollector&) = delete;
 
 	std::vector<HostItem> GetHostList();
 
-	size_t GetPaddingLenIp(const std::wstring& val);
-	size_t GetPaddingLenHost(const std::wstring& val);
-	size_t GetPaddingLenFamily(const std::wstring& val);
-	size_t GetPaddingLenAdapter(const std::wstring& val);
-	size_t GetPaddingLenType(const std::wstring& val);
-
+	size_t GetPaddingLenIp(const std::wstring& val) const;
+	size_t GetPaddingLenHost(const std::wstring& val) const;
+	size_t GetPaddingLenFamily(const std::wstring& val) const;
+	size_t GetPaddingLenAdapter(const std::wstring& val) const;
+	size_t GetPaddingLenType(const std::wstring& val) const;
 	/// <summary>
 	/// Collect neighbor hosts
 	/// </summary>
@@ -125,7 +107,5 @@ private:
 	std::mutex m_onResultMutex;
 
 };
-
-#endif // HOSTCOLLECTOR__
 
 void GetIpString(const SOCKADDR_INET& address, std::wstring& ip);

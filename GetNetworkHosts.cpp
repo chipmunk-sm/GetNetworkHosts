@@ -2,47 +2,30 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#pragma warning( push )
-#pragma warning( disable : 4365 ) // conversion from '' to ''
-#pragma warning( disable : 4668 ) // is not defined as a preprocessor macro
-#pragma warning( disable : 4710 ) // function not inlined
-#pragma warning( disable : 4711 ) // selected for automatic inline expansion
-#pragma warning( disable : 4820 ) // bytes padding added after data member
-#pragma warning( disable : 5039 ) // pointer or reference to potentially throwing function passed to 'extern "C"' function under - EHc.Undefined behavior may occur if this function throws an exception.
-#pragma warning( disable : 5264 ) // 'const' variable is not used
-
 #include <iostream>
 #include <string>
 #include <chrono>
 
-#pragma warning( pop )
-
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "iphlpapi.lib")
-
-//#if defined(_DEBUG) || defined(DEBUG)
-//#define TRACEENABLE
-////#include <debugapi.h>
-//#endif // DEBUG
-
 
 #include "HostItem.h"
 #include "HostCollector.h"
 
 class WinsockContext {
 public:
-	WinsockContext() {
-		WSADATA d;
-		if (WSAStartup(MAKEWORD(2, 2), &d) != 0) {
-			throw std::runtime_error("WSAStartup failed");
-		}
-	}
-	~WinsockContext() {
-		WSACleanup();
-	}
-	// Запрещаем копирование
-	WinsockContext(const WinsockContext&) = delete;
-	WinsockContext& operator=(const WinsockContext&) = delete;
+    WinsockContext() {
+        WSADATA d;
+        if (WSAStartup(MAKEWORD(2, 2), &d) != 0) {
+            throw std::runtime_error("WSAStartup failed");
+        }
+    }
+    ~WinsockContext() {
+        WSACleanup();
+    }
+
+    WinsockContext(const WinsockContext&) = delete;
+    WinsockContext& operator=(const WinsockContext&) = delete;
 };
 
 int main() {
