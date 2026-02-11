@@ -12,6 +12,8 @@
 #pragma warning( disable : 5264 ) // 'const' variable is not used
 
 #include <iostream>
+#include <string>
+#include <chrono>
 
 #pragma warning( pop )
 
